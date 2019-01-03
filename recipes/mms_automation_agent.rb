@@ -25,7 +25,11 @@ end
 # Set variables by platform
 case node['platform_family']
   when 'rhel', 'fedora'
-    mms_agent_source = 'https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager-latest.x86_64.rpm'
+    if node['platform_version'].to_i <= 6
+      mms_agent_source = 'https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager-latest.x86_64.rpm'
+    else
+      mms_agent_source = 'https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager-latest.x86_64.rhel7.rpm'
+    end
     mms_agent_file = '/root/mongodb-mms-automation-agent-manager-latest.x86_64.rpm'
   when 'debian'
     if node['platform'] == 'ubuntu' && node['platform_version'].to_f >= 15.04
